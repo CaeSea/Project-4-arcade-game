@@ -97,16 +97,16 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(keyPressed) {
   switch (keyPressed) {
     case 'left':
-        this.x = this.x - 100;
+        if(this.x != 0) { this.x = this.x - 100; }
       break;
     case 'up':
-        this.y = this.y - 90;
+        if(this.y != -50) { this.y = this.y - 90; }
       break;
     case 'right':
-        this.x = this.x + 100;
+        if(this.x != 400) { this.x = this.x + 100; }
       break;
     case 'down':
-        this.y = this.y + 90;
+        if(this.y != 400) { this.y = this.y + 90; }
       break;
   }
 }
