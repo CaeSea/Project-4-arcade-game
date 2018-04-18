@@ -6,10 +6,29 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = 10;
-    this.y = 10;
+    this.x = 0;
+    this.y = this.getY();
     //this.movementSpeed = movementSpeed;
 };
+
+// Sets a random Y start point for all enemies.
+Enemy.prototype.getY = function() {
+  // Generates a random number between 1 & 3.
+  let randomNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+  let yValue;
+  switch (randomNum) {
+    case 1:
+        yValue = 60;
+      break;
+    case 2:
+        yValue = 140;
+      break;
+    case 3:
+        yValue = 220;
+      break;
+  }
+  return yValue;
+}
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
