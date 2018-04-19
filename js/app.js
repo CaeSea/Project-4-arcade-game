@@ -6,6 +6,13 @@ const Game = {
     for(i = 0; i <=3; i++) {
       this.allEnemies.push(new Enemy());
     }
+  },
+
+  addScore: function() {
+    const scoreHolder = document.getElementsByClassName('score');
+    let score = scoreHolder[0].innerHTML;
+    newScore = parseInt(score) + 100;
+    scoreHolder[0].innerHTML = newScore;
   }
 };
 
@@ -65,8 +72,6 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Game.makeEnemies();
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -109,10 +114,20 @@ Player.prototype.handleInput = function(keyPressed) {
         if(this.y != 400) { this.y = this.y + 90; }
       break;
   }
+  player.checkWin();
 }
+
+Player.prototype.checkWin = function() {
+  if(this.y === -50) {
+    this.y = 400;
+    Game.addScore();
+  }
+};
 
 // Place the player object in a variable called player
 const player = new Player();
+// Calls the makeEnemies method in the game object to create all enemies.
+Game.makeEnemies();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
