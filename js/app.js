@@ -115,11 +115,9 @@ Player.prototype.handleInput = function(keyPressed) {
   switch (keyPressed) {
     case 'left':
         if(this.x != 2) { this.x -= 100; }
-        console.log(this.x);
       break;
     case 'up':
         if(this.y != -20) { this.y -= 85; }
-        console.log(this.y);
       break;
     case 'right':
         if(this.x != 402) { this.x += 100; }
