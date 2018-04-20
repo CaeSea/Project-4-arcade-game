@@ -10,12 +10,14 @@ const Game = {
   newScore: 0,
   lives: 5,
 
+  // Loops through a given number and instatiates that amount of enemeies
   makeEnemies: function(howMany) {
     for(i = 0; i <= howMany; i++) {
       this.allEnemies.push(new Enemy());
     }
   },
 
+  // Adds 100 points to score for each successful crossing
   addScore: function() {
     const scoreHolder = document.getElementsByClassName('score');
     let score = scoreHolder[0].innerHTML;
@@ -23,6 +25,7 @@ const Game = {
     scoreHolder[0].innerHTML = this.newScore;
   },
 
+  // Adds a visual indicator of stars to the difficulty level so the player can see the difficulty
   addDifficultyStars: function() {
     const difficultyHolder = document.getElementsByClassName('difficulty');
     let starSpan = document.createElement('span');
@@ -37,6 +40,7 @@ const Game = {
     }
   },
 
+  // Manipulates the DOM to take away a life heart when a collision is made
   minusLife: function() {
     const livesHolder = document.getElementsByClassName('life');
     let life = livesHolder[livesHolder.length-1];
@@ -46,6 +50,7 @@ const Game = {
     }
   },
 
+  // Adds the player score to the game over modal and adds a message based on the players score
   showScore: function() {
     const scoreContainer = document.getElementsByClassName("modal-score")[0];
     const messageContainer = document.getElementsByClassName("modal-content")[0];
@@ -69,6 +74,7 @@ const Game = {
     messageHolder.innerHTML = message;
   },
 
+  // Resets all game dependencies after game over and restart button is clicked
   restart: function() {
     // Closes modal
     modal.style.display = "";
@@ -170,9 +176,8 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+
+// This is our player class, with all player dependencies
 const Player = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -185,17 +190,12 @@ const Player = function() {
 
 };
 
-Player.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
-};
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Handles player keyboard input and moves character accordingly
 Player.prototype.handleInput = function(keyPressed) {
   switch (keyPressed) {
     case 'left':
@@ -214,6 +214,7 @@ Player.prototype.handleInput = function(keyPressed) {
   player.checkWin();
 }
 
+// Checks if the player has reached the water after every move
 Player.prototype.checkWin = function() {
   if(this.y === -20) {
     this.y = 405;
@@ -225,12 +226,12 @@ Player.prototype.checkWin = function() {
 
 // Place the player object in a variable called player
 const player = new Player();
-// Calls the makeEnemies method in the game object to create all enemies.
 
+// Calls the makeEnemies method in the game object to create all starting enemies.
 Game.makeEnemies(3);
 
 // This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     const allowedKeys = {
         37: 'left',
