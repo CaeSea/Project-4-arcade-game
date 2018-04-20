@@ -1,7 +1,14 @@
+// Global vars for game over modal.
+// Get the modal
+const modal = document.getElementById('myModal');
+// Get the button that opens the modal
+const span = document.getElementsByClassName("close")[0];
+
 // Game object that will hold all the game dependencies.
 const Game = {
   allEnemies: [],
   newScore: 0,
+  lives: 5,
 
   makeEnemies: function(howMany) {
     for(i = 0; i <= howMany; i++) {
@@ -28,6 +35,14 @@ const Game = {
       starSpan.innerHTML = '<i class="fas fa-star"></i>';
       this.makeEnemies(2);
     }
+  },
+
+  minusLife: function() {
+    const livesHolder = document.getElementsByClassName('life');
+    let life = livesHolder[livesHolder.length-1];
+    life.remove();
+    this.lives--;
+    console.log(this.lives);
   }
 
 };
@@ -86,6 +101,13 @@ Enemy.prototype.update = function(dt) {
    if (Math.abs(this.x - player.x) < 75 && Math.abs(this.y - player.y) < 78) {
        player.x = 202;
        player.y = 405;
+       if(Game.lives !== 1) {
+         Game.minusLife();
+       } else {
+         // Show game over modal.
+         Game.minusLife();
+         modal.style.display = "block";
+       }
    }
 };
 
@@ -150,8 +172,19 @@ Player.prototype.checkWin = function() {
 const player = new Player();
 // Calls the makeEnemies method in the game object to create all enemies.
 
-// if difficulty == 1, make 3 enemies, if diff = 2 make 5 enemies, if diff = 3 make 7 enemies.
 Game.makeEnemies(3);
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

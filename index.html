@@ -7,8 +7,27 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 </head>
 <body>
-  <p>Score: <span class="score">0</span></p>
-  <p class="difficulty">Difficulty: <span><i class="fas fa-star"></i></span></p>
+  <h1>Project 4: Classic Arcade Game</h1>
+  <section class="score-panel">
+    <p>Score: <span class="score">0</span></p>
+    <p class="difficulty">Difficulty: <span><i class="fas fa-star"></i></span></p>
+    <ul class="lives">
+      <li class="life"><span>Lives: </span><i class="fas fa-heart"></i></li>
+      <li class="life"><i class="fas fa-heart"></i></li>
+      <li class="life"><i class="fas fa-heart"></i></li>
+      <li class="life"><i class="fas fa-heart"></i></li>
+      <li class="life"><i class="fas fa-heart"></i></li>
+    </ul>
+  </section>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>GAME OVER</p>
+    </div>
+  </div>
+
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
