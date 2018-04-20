@@ -1,9 +1,10 @@
 // Game object that will hold all the game dependencies.
 const Game = {
   allEnemies: [],
+  newScore: 0,
 
-  makeEnemies: function() {
-    for(i = 0; i <=3; i++) {
+  makeEnemies: function(howMany) {
+    for(i = 0; i <= howMany; i++) {
       this.allEnemies.push(new Enemy());
     }
   },
@@ -11,16 +12,24 @@ const Game = {
   addScore: function() {
     const scoreHolder = document.getElementsByClassName('score');
     let score = scoreHolder[0].innerHTML;
-    newScore = parseInt(score) + 100;
-    scoreHolder[0].innerHTML = newScore;
+    this.newScore = parseInt(score) + 100;
+    scoreHolder[0].innerHTML = this.newScore;
   },
 
-  minusScore: function() {
-    const scoreHolder = document.getElementsByClassName('score');
-    let score = scoreHolder[0].innerHTML;
-    newScore = parseInt(score) - 100;
-    scoreHolder[0].innerHTML = newScore;
+  addDifficultyStars: function() {
+    const difficultyHolder = document.getElementsByClassName('difficulty');
+    let starSpan = document.createElement('span');
+    if(this.newScore === 500) {
+      difficultyHolder[0].appendChild(starSpan);
+      starSpan.innerHTML = '<i class="fas fa-star"></i>';
+      this.makeEnemies(1);
+    } else if(this.newScore === 800) {
+      difficultyHolder[0].appendChild(starSpan);
+      starSpan.innerHTML = '<i class="fas fa-star"></i>';
+      this.makeEnemies(2);
+    }
   }
+
 };
 
 // Enemies our player must avoid
@@ -77,7 +86,6 @@ Enemy.prototype.update = function(dt) {
    if (Math.abs(this.x - player.x) < 75 && Math.abs(this.y - player.y) < 78) {
        player.x = 202;
        player.y = 405;
-       Game.minusScore();
    }
 };
 
@@ -134,13 +142,16 @@ Player.prototype.checkWin = function() {
     this.y = 405;
     this.x = 202;
     Game.addScore();
+    Game.addDifficultyStars();
   }
 };
 
 // Place the player object in a variable called player
 const player = new Player();
 // Calls the makeEnemies method in the game object to create all enemies.
-Game.makeEnemies();
+
+// if difficulty == 1, make 3 enemies, if diff = 2 make 5 enemies, if diff = 3 make 7 enemies.
+Game.makeEnemies(3);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
