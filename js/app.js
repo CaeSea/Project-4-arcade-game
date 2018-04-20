@@ -1,7 +1,7 @@
 // Global vars for game over modal.
 // Get the modal
 const modal = document.getElementById('myModal');
-// Get the button that opens the modal
+// Get the span that closes the modal
 const span = document.getElementsByClassName("close")[0];
 
 // Game object that will hold all the game dependencies.
@@ -43,6 +43,28 @@ const Game = {
     life.remove();
     this.lives--;
     console.log(this.lives);
+  },
+
+  showScore: function() {
+    const scoreContainer = document.getElementsByClassName("modal-score")[0];
+    const messageContainer = document.getElementsByClassName("modal-content")[0];
+    let scoreSpan = document.createElement('span');
+    let messageHolder = document.createElement('p');
+    let actualScore = document.getElementsByClassName('score')[0].innerHTML;
+    let message = "";
+
+    scoreContainer.appendChild(scoreSpan);
+    scoreSpan.innerHTML = actualScore;
+
+    if(actualScore <= 500) {
+      message = "You need practice...";
+    } else if(actualScore <= 1000) {
+      message = "Not too bad!";
+    } else {
+      message = "You're a pro!";
+    }
+    messageContainer.appendChild(messageHolder);
+    messageHolder.innerHTML = message;
   }
 
 };
@@ -106,6 +128,7 @@ Enemy.prototype.update = function(dt) {
        } else {
          // Show game over modal.
          Game.minusLife();
+         Game.showScore();
          modal.style.display = "block";
        }
    }
