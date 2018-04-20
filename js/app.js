@@ -13,6 +13,13 @@ const Game = {
     let score = scoreHolder[0].innerHTML;
     newScore = parseInt(score) + 100;
     scoreHolder[0].innerHTML = newScore;
+  },
+
+  minusScore: function() {
+    const scoreHolder = document.getElementsByClassName('score');
+    let score = scoreHolder[0].innerHTML;
+    newScore = parseInt(score) - 100;
+    scoreHolder[0].innerHTML = newScore;
   }
 };
 
@@ -38,10 +45,10 @@ Enemy.prototype.getY = function() {
         yValue = 60;
       break;
     case 2:
-        yValue = 140;
+        yValue = 145;
       break;
     case 3:
-        yValue = 220;
+        yValue = 230;
       break;
   }
   return yValue;
@@ -58,12 +65,19 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x = this.x + this.speed*dt;
+    this.x = Math.floor(this.x + this.speed*dt);
 
     if (this.x >= 1010) {
        this.x = -100;
        this.y = this.getY();
        this.speed = this.getSpeed();
+   }
+
+   // This checks for player/enemy collision by checking if the co-ords are within range
+   if (Math.abs(this.x - player.x) < 75 && Math.abs(this.y - player.y) < 78) {
+       player.x = 202;
+       player.y = 405;
+       Game.minusScore();
    }
 };
 
@@ -71,7 +85,6 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -82,8 +95,8 @@ const Player = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/char-princess-girl.png';
-    this.x = 200;
-    this.y = 400;
+    this.x = 202;
+    this.y = 405;
 
 };
 
@@ -93,7 +106,6 @@ Player.prototype.update = function(dt) {
     // all computers.
 
 };
-
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -102,24 +114,27 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(keyPressed) {
   switch (keyPressed) {
     case 'left':
-        if(this.x != 0) { this.x = this.x - 100; }
+        if(this.x != 2) { this.x -= 100; }
+        console.log(this.x);
       break;
     case 'up':
-        if(this.y != -50) { this.y = this.y - 90; }
+        if(this.y != -20) { this.y -= 85; }
+        console.log(this.y);
       break;
     case 'right':
-        if(this.x != 400) { this.x = this.x + 100; }
+        if(this.x != 402) { this.x += 100; }
       break;
     case 'down':
-        if(this.y != 400) { this.y = this.y + 90; }
+        if(this.y != 405) { this.y += 85; }
       break;
   }
   player.checkWin();
 }
 
 Player.prototype.checkWin = function() {
-  if(this.y === -50) {
-    this.y = 400;
+  if(this.y === -20) {
+    this.y = 405;
+    this.x = 202;
     Game.addScore();
   }
 };
