@@ -40,9 +40,10 @@ const Game = {
   minusLife: function() {
     const livesHolder = document.getElementsByClassName('life');
     let life = livesHolder[livesHolder.length-1];
-    life.remove();
-    this.lives--;
-    console.log(this.lives);
+    if(livesHolder.length != 0) {
+      life.remove();
+      this.lives--;
+    }
   },
 
   showScore: function() {
@@ -64,9 +65,40 @@ const Game = {
       message = "You're a pro!";
     }
     messageContainer.appendChild(messageHolder);
+    messageHolder.classList.add('your-score');
     messageHolder.innerHTML = message;
-  }
+  },
 
+  restart: function() {
+    // Closes modal
+    modal.style.display = "";
+    // Resets player position
+    player.x = 202;
+    player.y = 405;
+    // Adds lives back
+    const livesHolder = document.getElementsByClassName('lives')[0];
+    let newLife = document.createElement('li');
+    newLife.classList.add('life');
+    newLife.innerHTML = '<i class="fas fa-heart"></i>';
+    for(i=0; i<5; i++) {
+      livesHolder.appendChild(newLife.cloneNode(true));
+    }
+    this.lives = 5;
+    // Reset score to 0
+    const scoreHolder = document.getElementsByClassName('score')[0];
+    this.newScore = 0;
+    scoreHolder.innerHTML = this.newScore;
+    // Reset Difficulty level
+    const difficultyHolder = document.getElementsByClassName('difficulty')[0];
+    difficultyHolder.innerHTML = 'Difficulty: <span><i class="fas fa-star"></i></span>';
+    this.allEnemies.length = 0;
+    this.makeEnemies(3);
+    // Reset modal
+    const scoreContainer = document.getElementsByClassName("modal-score")[0];
+    const messageContainer = document.getElementsByClassName("your-score")[0];
+    scoreContainer.innerHTML = "Your Score: ";
+    messageContainer.remove(messageContainer[0]);
+  }
 };
 
 // Enemies our player must avoid
@@ -196,18 +228,6 @@ const player = new Player();
 // Calls the makeEnemies method in the game object to create all enemies.
 
 Game.makeEnemies(3);
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
