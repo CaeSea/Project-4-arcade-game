@@ -9,4 +9,4 @@
 
 ## Link to game
 
-You can find a link to the game here: 
+You can find a link to the game here: https://caesea.github.io/Project-4-arcade-game/
